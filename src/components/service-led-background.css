@@ -1,0 +1,384 @@
+/* ============================================
+   PREMIUM LED BACKGROUND - SERVICE THEMED
+   ============================================ */
+
+/* Service Color Palette */
+:root {
+    /* Dark Mode (Premium LED Glow) */
+    --led-panel: #8B5CF6;
+    /* Purple - LED Panels */
+    --wall-3d: #FF6B00;
+    /* Orange - 3D Wall */
+    --signage: #00E5FF;
+    /* Cyan - Custom Signage */
+    --event: #FF4D4D;
+    /* Red - Event Decoration */
+    --lighting: #34D399;
+    /* Green - Lighting Design */
+    --interior: #F59E0B;
+    /* Amber - Interior Enhancement */
+
+    /* Atmospheric colors */
+    --bg-gradient-1: rgba(139, 92, 246, 0.15);
+    --bg-gradient-2: rgba(255, 107, 0, 0.12);
+    --bg-gradient-3: rgba(0, 229, 255, 0.1);
+}
+
+/* Light Mode (Vibrant Daylight LED Tones) */
+.light {
+    --led-panel: #7C3AED;
+    /* Deeper purple for visibility */
+    --wall-3d: #F97316;
+    /* Vibrant orange */
+    --signage: #06B6D4;
+    /* Rich cyan */
+    --event: #EF4444;
+    /* Bright red */
+    --lighting: #10B981;
+    /* Vivid green */
+    --interior: #F59E0B;
+    /* Warm amber */
+
+    --bg-gradient-1: rgba(124, 58, 237, 0.25);
+    /* Increased opacity */
+    --bg-gradient-2: rgba(249, 115, 22, 0.22);
+    /* Increased opacity */
+    --bg-gradient-3: rgba(6, 182, 212, 0.2);
+    /* Increased opacity */
+}
+
+/* Main Container */
+.led-background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* ============================================
+   LAYER 1: ATMOSPHERIC BASE
+   ============================================ */
+.led-atmosphere {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 120% 80% at 25% 90%, var(--bg-gradient-1) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 70% at 75% 20%, var(--bg-gradient-2) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 60% at 50% 50%, var(--bg-gradient-3) 0%, transparent 50%);
+    opacity: 1;
+    animation: atmosphere-breathe 20s ease-in-out infinite;
+}
+
+@keyframes atmosphere-breathe {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05) rotate(0.5deg);
+    }
+}
+
+/* ============================================
+   LAYER 2: LED LIGHT BARS
+   ============================================ */
+.led-bar {
+    position: absolute;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    opacity: 0.3;
+    filter: blur(0px);
+    transform-origin: center;
+    will-change: transform;
+}
+
+/* Dark mode visibility */
+.dark .led-bar {
+    opacity: 0.3;
+}
+
+/* Light mode - vibrant and visible */
+.light .led-bar {
+    opacity: 0.35;
+    /* Increased from 0.12 */
+    filter: blur(0px);
+    /* Sharp, not blurred */
+}
+
+/* Individual LED Bar Positioning & Colors */
+.led-bar[data-service="panel"] {
+    left: 10%;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            var(--led-panel) 15%,
+            var(--led-panel) 85%,
+            transparent 100%);
+    animation: led-drift 14s ease-in-out infinite;
+}
+
+.led-bar[data-service="wall"] {
+    left: 25%;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            var(--wall-3d) 10%,
+            var(--wall-3d) 90%,
+            transparent 100%);
+    animation: led-drift 16s ease-in-out infinite -2s;
+}
+
+.led-bar[data-service="signage"] {
+    left: 50%;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            var(--signage) 12%,
+            var(--signage) 88%,
+            transparent 100%);
+    animation: led-drift 15s ease-in-out infinite -4s;
+}
+
+.led-bar[data-service="event"] {
+    left: 75%;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            var(--event) 8%,
+            var(--event) 92%,
+            transparent 100%);
+    animation: led-drift 17s ease-in-out infinite -6s;
+}
+
+.led-bar[data-service="lighting"] {
+    left: 88%;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            var(--lighting) 14%,
+            var(--lighting) 86%,
+            transparent 100%);
+    animation: led-drift 13s ease-in-out infinite -8s;
+}
+
+/* Volumetric LED Glow Effect */
+.led-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 100%;
+    background: inherit;
+    filter: blur(30px);
+    opacity: 0.5;
+    animation: glow-pulse 4s ease-in-out infinite;
+}
+
+@keyframes led-drift {
+
+    0%,
+    100% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-30px) translateX(8px) rotate(0.5deg);
+    }
+
+    50% {
+        transform: translateY(0) translateX(-5px) rotate(-0.3deg);
+    }
+
+    75% {
+        transform: translateY(15px) translateX(12px) rotate(0.4deg);
+    }
+}
+
+@keyframes glow-pulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        filter: blur(30px);
+    }
+
+    50% {
+        opacity: 0.8;
+        filter: blur(40px);
+    }
+}
+
+/* ============================================
+   LAYER 3: FLOATING LED PARTICLES
+   ============================================ */
+.led-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    opacity: 0.6;
+    filter: blur(1px);
+    animation: particle-float linear infinite;
+}
+
+.dark .led-particle {
+    opacity: 0.6;
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+.light .led-particle {
+    opacity: 0.5;
+    /* Increased from 0.3 */
+    box-shadow: 0 0 8px currentColor, 0 0 15px currentColor;
+    /* Added glow */
+}
+
+@keyframes particle-float {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.6;
+    }
+
+    90% {
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translateY(-10vh) translateX(var(--particle-drift)) scale(1);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   LAYER 4: GRID OVERLAY (Subtle Tech Feel)
+   ============================================ */
+.led-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--led-panel) 1px, transparent 1px),
+        linear-gradient(90deg, var(--led-panel) 1px, transparent 1px);
+    background-size: 100px 100px;
+    opacity: 0.02;
+    animation: grid-scroll 60s linear infinite;
+}
+
+.light .led-grid {
+    opacity: 0.025;
+    /* Slightly more visible in light mode */
+}
+
+@keyframes grid-scroll {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(100px);
+    }
+}
+
+/* ============================================
+   RESPONSIVE & ACCESSIBILITY
+   ============================================ */
+
+/* Mobile: Fewer bars for performance */
+@media (max-width: 768px) {
+
+    .led-bar[data-service="wall"],
+    .led-bar[data-service="event"] {
+        display: none;
+    }
+
+    .led-bar::before {
+        width: 50px;
+        filter: blur(20px);
+    }
+
+    .led-particle {
+        display: none;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .led-atmosphere,
+    .led-bar,
+    .led-bar::before,
+    .led-particle,
+    .led-grid {
+        animation: none !important;
+    }
+
+    .led-bar {
+        opacity: 0.15;
+    }
+
+    .light .led-bar {
+        opacity: 0.1;
+    }
+
+    .led-particle {
+        display: none;
+    }
+}
+
+/* ============================================
+   INTERACTIVE EFFECTS
+   ============================================ */
+
+/* Scroll-based parallax (applied via JS) */
+.led-bar {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover effect for service cards (applied via JS) */
+.led-beam {
+    position: fixed;
+    width: 2px;
+    height: 0;
+    background: linear-gradient(to bottom, currentColor, transparent);
+    pointer-events: none;
+    z-index: 100;
+    animation: beam-shoot 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    filter: blur(1px);
+}
+
+@keyframes beam-shoot {
+    0% {
+        height: 0;
+        opacity: 1;
+    }
+
+    70% {
+        height: 300px;
+        opacity: 0.8;
+    }
+
+    100% {
+        height: 400px;
+        opacity: 0;
+    }
+}
+
+/* Theme transition smoothness */
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.led-bar,
+.led-bar::before,
+.led-atmosphere {
+    transition: opacity 0.5s ease, filter 0.5s ease !important;
+}
