@@ -1,0 +1,18 @@
+name: Clear Vercel Build Overrides
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  clear:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clear bad Vercel settings via API
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          curl -X PATCH "https://api.vercel.com/v9/projects/$VERCEL_PROJECT_ID" \
+            -H "Authorization: Bearer $VERCEL_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"buildCommand":null,"installCommand":null,"outputDirectory":null}'
